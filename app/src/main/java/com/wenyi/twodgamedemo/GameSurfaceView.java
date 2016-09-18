@@ -74,6 +74,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         running = true;
         width = getWidth();
         height = getHeight();
+        System.out.println(width+"-----"+height);
         if(thread == null) {
             pauseRect = new Rect(width/40,height/70,width/10,height/14);
             aircraft = new Aircraft(bitmaps[0]);
@@ -164,7 +165,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
             canvas.drawLine(x*4/5,y/3,x*4/5,y*2/3,p);
             canvas.drawLine(x/5,y*5/12,x*4/5,y*5/12,p);
             canvas.drawLine(x/5,y*7/12,x*4/5,y*7/12,p);
-            tp.setTextSize(50);
+            tp.setTextSize(40.0f*(float)width/720.0f);
             tp.setColor(0xff000000);
             tp.setStrokeWidth(3);
             tp.setTextAlign(Paint.Align.CENTER);
@@ -199,7 +200,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
             drawBombs(canvas);
             //暂停按钮
             canvas.drawBitmap(pauseBitmap,new Rect(0,0,pauseBitmap.getWidth(),pauseBitmap.getHeight()), pauseRect,p);
-            tp.setTextSize(40);
+            tp.setTextSize(40.0f*(float)width/720.0f);
             tp.setColor(0xff000000);
             tp.setStrokeWidth(3);
             canvas.drawText(score+"",width/7,height/20,tp);
@@ -259,6 +260,8 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
                     allBullet.clear();
                     allBoom.clear();
                     score = 0;
+                    doubleBullets = 0;
+                    bombs = 0;
                     aircraft = new Aircraft(bitmaps[0]);
                     aircraft.move(width/2,height - bitmaps[0].getHeight()/2);
                     gameOver = false;
@@ -314,9 +317,9 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         if(num < 7) {
             plane = new SmallEnemyPlane(bitmaps[4], r.nextInt(5) + 1, r.nextInt(width - bitmaps[4].getWidth()));
         }else if(num < 9){
-            plane = new MiddleEnemyPlane(bitmaps[5],r.nextInt(4) + 1, r.nextInt(width - bitmaps[5].getWidth()));
+            plane = new MiddleEnemyPlane(bitmaps[5],r.nextInt(3) + 1, r.nextInt(width - bitmaps[5].getWidth()));
         }else {
-            plane = new BigEnemyPlane(bitmaps[6],r.nextInt(3) + 1, r.nextInt(width - bitmaps[6].getWidth()));
+            plane = new BigEnemyPlane(bitmaps[6],r.nextInt(2) + 1, r.nextInt(width - bitmaps[6].getWidth()));
         }
         synchronized (allPlane){
             allPlane.add(plane);
@@ -402,7 +405,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         if(bombs > 0){
             canvas.drawBitmap(bitmaps[11],width/40,height*69/70 - bitmaps[11].getHeight(),null);
             Paint tp = new TextPaint(Paint.ANTI_ALIAS_FLAG | Paint.FAKE_BOLD_TEXT_FLAG);
-            tp.setTextSize(50);
+            tp.setTextSize(40.0f*(float)width/720.0f);
             tp.setColor(0xff000000);
             tp.setStrokeWidth(3);
             tp.setTextAlign(Paint.Align.LEFT);
